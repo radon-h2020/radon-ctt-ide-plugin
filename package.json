@@ -1,7 +1,7 @@
 {
   "name": "radon-ctt-ide-plugin",
   "version": "0.0.1",
-  "displayName": "radon-ctt-ide-plugin",
+  "displayName": "Radon CTT IDE Plugin",
   "description": "",
   "keywords": [
     "axios",
@@ -16,16 +16,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:radon-ctt-ide-plugin.helloWorld"
+    "onCommand:radon-ctt-ide-plugin.runWithConfig"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "radon-ctt-ide-plugin.helloWorld",
-        "title": "Hello World"
+        "command": "radon-ctt-ide-plugin.runWithConfig",
+        "title": "CTT: Execute test configuration"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "radon-ctt-ide-plugin.runWithConfig",
+          "when": "resourceExtname == .yaml",
+          "group": "radon@1"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

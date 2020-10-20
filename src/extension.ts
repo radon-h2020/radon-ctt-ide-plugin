@@ -2,28 +2,34 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { App } from './app';
+import * as path from 'path';
+
+
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
+	let radonCttOutputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Radon CTT");
+	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "radon-ctt-ide-plugin" is now active!');
+	console.log('Extension "radon-ctt-ide-plugin" activated.');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('radon-ctt-ide-plugin.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from radon-ctt-ide-plugin!');
-		const cttApp = new App('http://localhost:18080/RadonCTT', 'cttConfig.yaml');
-		cttApp.runSteps();
+	let runWithConfig = vscode.commands.registerCommand('radon-ctt-ide-plugin.runWithConfig', (cttConfigFile:vscode.Uri) => {
+		vscode.window.showInformationMessage('CTT test execution started.');
+		
+		try {	
+			radonCttOutputChannel.show();
+			const cttApp = new App('http://0.0.0.0:18080/RadonCTT', cttConfigFile.fsPath, path.dirname(cttConfigFile.fsPath));
+			cttApp.runCTT(radonCttOutputChannel);
+		} catch (e) {
+			console.log(e);
+		}
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(runWithConfig);
 }
 
 // this method is called when your extension is deactivated
