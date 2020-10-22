@@ -1,7 +1,9 @@
 {
   "name": "radon-ctt-ide-plugin",
   "version": "0.0.1",
+  "publisher": "radon",
   "displayName": "Radon CTT IDE Plugin",
+  "repository": "https://github.com/radon-h2020/radon-ctt-ide-plugin",
   "description": "",
   "keywords": [
     "axios",
@@ -61,6 +63,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "js-file-download": "^0.4.12",
     "js-yaml": "^3.14.0"
   }
 }

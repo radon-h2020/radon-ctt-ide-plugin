@@ -4,7 +4,14 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import fileDownload, * as jsfd from 'js-file-download';
 
+
+declare var Blob: {
+    prototype: Blob;
+    new (): Blob;
+    new (request: any, mime: string): Blob;
+};
 
 export class App {
     basePath: string;
@@ -110,9 +117,10 @@ export class App {
     private async downloadResult(resultUuidParam: string, resultDestinationPathParam: string) {
         const result: AxiosResponse<any> = await new ResultApi({ basePath: this.basePath }).
             downloadResultByUuid(resultUuidParam);
-        const type = result.headers['content-type'];
-        
-        fs.writeFileSync(resultDestinationPathParam, Buffer.from([result.data]), 'utf8');
+        //const type = result.headers['content-type'];
+        //var blob: Blob = new Blob(result.data, type);
+        console.log(result.data);
+        fs.writeFileSync(resultDestinationPathParam, Buffer.from(result.data, 'binary'));
     };
 
     async runCTT(outputChannel: vscode.OutputChannel) {
