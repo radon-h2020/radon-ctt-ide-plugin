@@ -25,7 +25,7 @@
     "commands": [
       {
         "command": "radon-ctt-ide-plugin.runWithConfig",
-        "title": "CTT: Execute test configuration"
+        "title": "RadonCTT: Execute test configuration"
       }
     ],
     "menus": {

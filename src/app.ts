@@ -61,7 +61,6 @@ export class App {
     private async createProject(nameParam: string, repositoryUrlParam: string) {
         const project: AxiosResponse<any> = await new ProjectApi({ basePath: this.basePath }).
             createProject({ name: nameParam, repository_url: repositoryUrlParam });
-        console.log(`The data of the AxiosResponse is ${JSON.stringify(project.data.uuid)}`);
         return JSON.stringify(project.data.uuid);
     }
 
@@ -117,9 +116,6 @@ export class App {
     private async downloadResult(resultUuidParam: string, resultDestinationPathParam: string) {
         const result: AxiosResponse<any> = await new ResultApi({ basePath: this.basePath }).
             downloadResultByUuid(resultUuidParam);
-        //const type = result.headers['content-type'];
-        //var blob: Blob = new Blob(result.data, type);
-        console.log(result.data);
         fs.writeFileSync(resultDestinationPathParam, Buffer.from(result.data, 'binary'));
     };
 
