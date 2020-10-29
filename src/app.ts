@@ -5,7 +5,7 @@ import * as yaml from 'js-yaml';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import fileDownload, * as jsfd from 'js-file-download';
-
+import * as childProcess from 'child_process';
 
 declare var Blob: {
     prototype: Blob;
@@ -172,7 +172,9 @@ export class App {
                             if (typeof (resultUuid) === "string") {
                                 progress.report({increment: 15, message: 'Downloading Results (6/6)'});
                                 const resultDestinationPath = this.configData['result_destination_path'];
-                                await this.downloadResult(resultUuid.replace(/['"]+/g, ''), path.join(this.dirPath, resultDestinationPath));
+                                // await this.downloadResult(resultUuid.replace(/['"]+/g, ''), path.join(this.dirPath, resultDestinationPath));
+                                
+                                childProcess.execSync(`wget -O ${path.join(this.dirPath, resultDestinationPath)} "${this.basePath}/result/${resultUuid.replace(/['"]+/g, '')}/download"`);
                                 
                                 progress.report({increment: 10, message: 'Finished'});
                                 vscode.window.showInformationMessage(`Radon CTT execution finished successfully. Results can be found in '${resultDestinationPath}'`);
